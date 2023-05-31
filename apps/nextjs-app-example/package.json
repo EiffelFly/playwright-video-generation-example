@@ -10,7 +10,8 @@
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start",
-    "test": "yarn prettier:check && yarn lint"
+    "test": "pnpm prettier:check && pnpm lint",
+    "e2e": "npx playwright test"
   },
   "git": {
     "pre-commit": "lint-staged"
@@ -41,10 +42,10 @@
     "@types/react-dom": "18.0.9",
     "@vercel/git-hooks": "1.0.0",
     "autoprefixer": "10.4.13",
+    "dotenv": "16.1.1",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.0",
     "lint-staged": "13.1.0",
-    "playwright": "1.34.3",
     "postcss": "8.4.20",
     "prettier": "2.8.1",
     "prettier-plugin-tailwindcss": "0.2.1",
