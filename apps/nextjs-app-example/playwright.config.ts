@@ -22,25 +22,25 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
-    viewport: { width: 1920, height: 1080 },
-    video: {
-      mode: 'off',
-      size: { width: 1920, height: 1080 },
-    },
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Chrome'],
+
+        // device default configuration will override the global viewport configuration
+        // https://github.com/microsoft/playwright/issues/13673#issuecomment-1105621745
+        viewport: {
+          width: 1920,
+          height: 1080,
+        },
+        video: {
+          mode: 'on',
+          size: { width: 1920, height: 1080 },
+        },
+      },
     },
   ],
   webServer: {
