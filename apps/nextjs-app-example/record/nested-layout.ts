@@ -3,10 +3,20 @@ import path from "path";
 import { clickAnchorLink } from "./utils";
 
 export default async function recordNestedLayoutHandler() {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({
+    headless: true,
+  });
   const context = await browser.newContext({
     recordVideo: {
-      dir: path.resolve("videos"),
+      dir: path.resolve("..", "..", "remote-data"),
+      size: {
+        width: 1920,
+        height: 1080,
+      },
+    },
+    viewport: {
+      width: 1920,
+      height: 1080,
     },
     baseURL: "http://localhost:3000",
   });
