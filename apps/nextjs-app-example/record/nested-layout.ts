@@ -1,10 +1,11 @@
 import { chromium } from "playwright";
 import path from "path";
 import { clickAnchorLink } from "./utils";
+import { createCursor } from "ghost-cursor-playwright";
 
 export default async function recordNestedLayoutHandler() {
   const browser = await chromium.launch({
-    headless: true,
+    headless: false,
   });
   const context = await browser.newContext({
     recordVideo: {
@@ -22,6 +23,7 @@ export default async function recordNestedLayoutHandler() {
   });
   const page = await context.newPage();
   await page.goto("/");
+  const cursor = createCursor(page);
 
   await clickAnchorLink(page, "Nested Layouts");
 
