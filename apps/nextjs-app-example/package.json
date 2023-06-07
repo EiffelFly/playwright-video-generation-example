@@ -25,6 +25,7 @@
     "clsx": "1.2.1",
     "date-fns": "2.29.3",
     "dinero.js": "2.0.0-alpha.8",
+    "ghost-cursor": "1.1.18",
     "ms": "3.0.0-canary.1",
     "next": "13.4.2-canary.4",
     "playwright": "1.34.3",
