@@ -1,11 +1,11 @@
 import { chromium } from "playwright";
 import path from "path";
 import { clickAnchorLink } from "./utils";
-import { createCursor } from "ghost-cursor-playwright";
+import { installMouseHelper } from "./installMouseHelper";
 
 export default async function recordNestedLayoutHandler() {
   const browser = await chromium.launch({
-    headless: false,
+    headless: true,
   });
   const context = await browser.newContext({
     recordVideo: {
@@ -22,12 +22,27 @@ export default async function recordNestedLayoutHandler() {
     baseURL: "http://localhost:3000",
   });
   const page = await context.newPage();
+  await installMouseHelper(page);
   await page.goto("/");
-  const cursor = createCursor(page);
-
   await clickAnchorLink(page, "Nested Layouts");
 
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(2000);
+
+  await clickAnchorLink(page, "Books");
+
+  await page.waitForTimeout(2000);
+
+  await clickAnchorLink(page, "Code Snippets");
+
+  await page.waitForTimeout(2000);
+
+  await clickAnchorLink(page, "Not Found");
+
+  await page.waitForTimeout(2000);
+
+  await clickAnchorLink(page, "Category That Does Not Exist");
+
+  await page.waitForTimeout(2000);
 
   await context.close();
   await browser.close();

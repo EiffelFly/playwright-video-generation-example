@@ -17,17 +17,21 @@ export async function clickAnchorLink(page: Page, label: string) {
     lastPosition = { x: 0, y: 0 };
   }
 
-  const mousePath = path(
-    { x: lastPosition.x, y: lastPosition.y },
-    {
-      x: locatorPosition.x + locatorPosition.width / 2,
-      y: locatorPosition.y + locatorPosition.height / 2,
-    },
-  ) as { x: number; y: number }[];
+  const nextPosition = {
+    x: locatorPosition.x + locatorPosition.width / 2,
+    y: locatorPosition.y + locatorPosition.height / 2,
+  };
+
+  const mousePath = path(lastPosition, nextPosition, { moveSpeed: 50 }) as {
+    x: number;
+    y: number;
+  }[];
 
   for (const pos of mousePath) {
     await page.mouse.move(pos.x, pos.y);
   }
+
+  mousePosition.push(nextPosition);
 
   await locator.click();
 }
