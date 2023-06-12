@@ -1,4 +1,4 @@
-import recordNestedLayoutHandler from "./nested-layout";
+import recordNestedLayoutHandler from "./nestedLayout";
 
 (async () => {
   console.log("begin recording");
