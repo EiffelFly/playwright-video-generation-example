@@ -1,15 +1,18 @@
 import { chromium } from "playwright";
 import path from "path";
-import { clickAnchorLink } from "./utils";
+import { clickAnchorLink, createRecordedPage } from "./utils";
 import { installMouseHelper } from "./installMouseHelper";
 
 export default async function recordNestedLayoutHandler() {
   const browser = await chromium.launch({
     headless: true,
   });
+
+  const videoPath = path.resolve("..", "..", "apps", "docs", "public");
+
   const context = await browser.newContext({
     recordVideo: {
-      dir: path.resolve("..", "..", "remote-data"),
+      dir: videoPath,
       size: {
         width: 1920,
         height: 1080,
@@ -21,7 +24,13 @@ export default async function recordNestedLayoutHandler() {
     },
     baseURL: "http://localhost:3000",
   });
-  const page = await context.newPage();
+
+  const { page, saveVideo } = await createRecordedPage(
+    context,
+    videoPath,
+    "nested-layout",
+  );
+
   await installMouseHelper(page);
   await page.goto("/");
   await clickAnchorLink(page, "Nested Layouts");
@@ -43,6 +52,8 @@ export default async function recordNestedLayoutHandler() {
   await clickAnchorLink(page, "Category That Does Not Exist");
 
   await page.waitForTimeout(2000);
+
+  await saveVideo();
 
   await context.close();
   await browser.close();
