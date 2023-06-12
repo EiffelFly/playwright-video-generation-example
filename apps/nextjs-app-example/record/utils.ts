@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Browser, BrowserContext, Page } from "playwright";
 import { path } from "ghost-cursor";
 import { mousePosition } from "./store";
 
@@ -34,4 +34,23 @@ export async function clickAnchorLink(page: Page, label: string) {
   mousePosition.push(nextPosition);
 
   await locator.click();
+}
+
+export async function createRecordedPage(
+  context: BrowserContext,
+  baseDir: string,
+  videoName: string,
+) {
+  const page = await context.newPage();
+
+  async function saveVideo() {
+    const video = page.video();
+
+    if (video) {
+      video.saveAs(`${baseDir}/${videoName}.webm`);
+      video.delete();
+    }
+  }
+
+  return { page, saveVideo };
 }
