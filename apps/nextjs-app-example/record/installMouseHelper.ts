@@ -7,10 +7,10 @@ export async function installMouseHelper(page: Page) {
     window.addEventListener(
       "DOMContentLoaded",
       () => {
-        const box = document.createElement("puppeteer-mouse-pointer");
+        const box = document.createElement("playwright-mouse-pointer");
         const styleElement = document.createElement("style");
         styleElement.innerHTML = `
-        puppeteer-mouse-pointer {
+        playwright-mouse-pointer {
           pointer-events: none;
           position: absolute;
           top: 0;
@@ -25,23 +25,23 @@ export async function installMouseHelper(page: Page) {
           padding: 0;
           transition: background .2s, border-radius .2s, border-color .2s;
         }
-        puppeteer-mouse-pointer.button-1 {
+        playwright-mouse-pointer.button-1 {
           transition: none;
           background: rgba(0,0,0,0.9);
         }
-        puppeteer-mouse-pointer.button-2 {
+        playwright-mouse-pointer.button-2 {
           transition: none;
           border-color: rgba(0,0,255,0.9);
         }
-        puppeteer-mouse-pointer.button-3 {
+        playwright-mouse-pointer.button-3 {
           transition: none;
           border-radius: 4px;
         }
-        puppeteer-mouse-pointer.button-4 {
+        playwright-mouse-pointer.button-4 {
           transition: none;
           border-color: rgba(255,0,0,0.9);
         }
-        puppeteer-mouse-pointer.button-5 {
+        playwright-mouse-pointer.button-5 {
           transition: none;
           border-color: rgba(0,255,0,0.9);
         }

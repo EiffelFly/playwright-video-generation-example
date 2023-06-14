@@ -36,11 +36,12 @@ export async function clickAnchorLink(page: Page, label: string) {
   await locator.click();
 }
 
-export async function createRecordedPage(
-  context: BrowserContext,
-  baseDir: string,
-  videoName: string,
-) {
+export async function createRecordedPage(props: {
+  context: BrowserContext;
+  baseDir: string;
+  videoName: string;
+}) {
+  const { context, baseDir, videoName } = props;
   const page = await context.newPage();
 
   async function saveVideo() {
