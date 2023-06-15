@@ -55,3 +55,17 @@ export async function createRecordedPage(props: {
 
   return { page, saveVideo };
 }
+
+export async function caption(
+  caption: string,
+  page: Page,
+  action: () => Promise<void>,
+) {
+  await page.evaluate(async (caption) => {
+    const updateCaptionEvent = new CustomEvent("update-caption", {
+      detail: caption,
+    });
+    window.dispatchEvent(updateCaptionEvent);
+  }, caption);
+  await action();
+}

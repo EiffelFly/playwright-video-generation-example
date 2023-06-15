@@ -1,8 +1,38 @@
 import { chromium } from "playwright";
 import path from "path";
-import { clickAnchorLink, createRecordedPage } from "./utils";
+import { caption, clickAnchorLink, createRecordedPage } from "./utils";
 import { installMouseHelper } from "./installMouseHelper";
-import { installCaptionHelper } from "./installCaptionHelper";
+import {
+  InstallCaptionHelperConfig,
+  installCaptionHelper,
+} from "./installCaptionHelper";
+
+const captionConfig: InstallCaptionHelperConfig = {
+  root: {
+    css: `
+    .telecine-caption-helper-root {
+      pointer-events: none;
+      position: absolute;
+      bottom: 250px;
+      z-index: 10000;
+      left: 0px;
+      right: 0px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+    }`,
+  },
+  container: {
+    css: `.telecine-caption-helper-container {
+      pointer-events: none;
+      width: 50%;
+      font-size: 2rem;
+      font-family: sans-serif;
+      color: black;
+      background: rgba(255, 255, 255, 0.8);
+    }`,
+  },
+};
 
 export default async function recordNestedLayoutHandler() {
   const browser = await chromium.launch({
@@ -33,7 +63,7 @@ export default async function recordNestedLayoutHandler() {
   });
 
   await installMouseHelper(page);
-  await installCaptionHelper(page);
+  await installCaptionHelper(page, captionConfig);
 
   await page.goto("/");
   await clickAnchorLink(page, "Nested Layouts");
@@ -52,11 +82,11 @@ export default async function recordNestedLayoutHandler() {
 
   await page.waitForTimeout(2000);
 
-  await clickAnchorLink(page, "Category That Does Not Exist");
+  await caption("Hello world", page, async () => {
+    await clickAnchorLink(page, "Category That Does Not Exist");
 
-  await page.waitForTimeout(2000);
-
-  await page.pause();
+    await page.waitForTimeout(2000);
+  });
 
   await saveVideo();
 
